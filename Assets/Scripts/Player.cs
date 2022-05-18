@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void IncreaseHealth(float value) 
+    public void Heal(float value) 
     {
         _animator.SetTrigger(AnimatorControllerPlayer.States.HealthUp);
         _healthCurrent = Mathf.Clamp(_healthCurrent + value, 0, _healthMax);

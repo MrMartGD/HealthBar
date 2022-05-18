@@ -33,10 +33,10 @@ public class HealthBar : MonoBehaviour
     {
         TryStopCoroutine(ref _coroutine);
         
-        _coroutine = StartCoroutine(TargetValueSetter());
+        _coroutine = StartCoroutine(TargetValueSet());
     }
 
-    private IEnumerator TargetValueSetter() 
+    private IEnumerator TargetValueSet() 
     {
         var waitForSeconds = new WaitForSeconds(_delay);
 
@@ -53,10 +53,6 @@ public class HealthBar : MonoBehaviour
         {
             StopCoroutine(coroutine);
             coroutine = null;
-        }
-        else 
-        {
-            return;
         }
     }
 }
