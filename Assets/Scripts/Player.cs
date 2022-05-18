@@ -5,12 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float _healthMax = 100;
-    [SerializeField] private HealthBar _healthBar;
-
     private Animator _animator;
+    private float _healthMax = 100;
     private float _healthCurrent;
     private float _delay = 1.5f;
+
+    public float HealthMax => _healthMax;
     
     public void TakeDamage(float damage) 
     {
@@ -36,14 +36,8 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        
-        _healthBar.SetMaxHealth(_healthMax);
+                
         _healthCurrent = _healthMax;
-    }
-
-    private void LateUpdate()
-    {
-        _healthBar.SetHealth(_healthCurrent);
     }
 
     private IEnumerator Die() 

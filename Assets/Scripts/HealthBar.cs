@@ -7,54 +7,46 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
+    [SerializeField] private Player _player;
     [SerializeField] private float _delta = 0.01f;
     [SerializeField] private float _delay = 0.01f;
-
+    
     private Coroutine _increase;
     private Coroutine _decrease;
+    private float _targetValue;
 
-    public void SetMaxHealth(float health) 
-    {
-        _slider.maxValue = health;
-        _slider.value = health;
-    }
-    
-    public void SetHealth(float currentHealth) 
-    {
-        if (currentHealth > _slider.value) 
-        {
-            Increase(currentHealth);
-        }
-
-        if (currentHealth < _slider.value) 
-        {
-            Decrease(currentHealth);
-        }
-    }
-
-    private void Increase(float targetValue) 
+    public void Increase(float value) 
     {
         TryStopCoroutine(ref _increase);
         TryStopCoroutine(ref _decrease);
 
-        _increase = StartCoroutine(ChangeValue(targetValue));
+        _targetValue = Mathf.Clamp(_targetValue + value, 0, _slider.maxValue);
+        _increase = StartCoroutine(ChangeValue());
     }
 
-    private void Decrease(float targetValue) 
+    public void Decrease(float value) 
     {
         TryStopCoroutine(ref _increase);
         TryStopCoroutine(ref _decrease);
 
-        _decrease = StartCoroutine(ChangeValue(targetValue));
+        _targetValue = Mathf.Clamp(_targetValue - value, 0, _slider.maxValue);
+        _decrease = StartCoroutine(ChangeValue());
+    }
+        
+    private void Start() 
+    {
+        _slider.maxValue = _player.HealthMax;
+        _slider.value = _slider.maxValue;
+        _targetValue = _slider.value;
     }
 
-    private IEnumerator ChangeValue(float targetValue) 
+    private IEnumerator ChangeValue() 
     {
         var waitForSeconds = new WaitForSeconds(_delay);
 
-        while (_slider.value != targetValue) 
+        while (_slider.value != _targetValue) 
         {
-            _slider.value = Mathf.MoveTowards(_slider.value, targetValue, _delta);
+            _slider.value = Mathf.MoveTowards(_slider.value, _targetValue, _delta);
             yield return waitForSeconds;
         }
     }
