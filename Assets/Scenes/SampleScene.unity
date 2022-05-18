@@ -384,6 +384,18 @@ PrefabInstance:
       propertyPath: _healthBar
       value: 
       objectReference: {fileID: 16715172}
+    - target: {fileID: 1516762574, guid: 136b8c963161d444db771f8e1f1cbbb9, type: 3}
+      propertyPath: _changed.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516762574, guid: 136b8c963161d444db771f8e1f1cbbb9, type: 3}
+      propertyPath: _changed.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1516762574, guid: 136b8c963161d444db771f8e1f1cbbb9, type: 3}
+      propertyPath: _changed.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 136b8c963161d444db771f8e1f1cbbb9, type: 3}
 --- !u!1 &519420028
@@ -885,18 +897,6 @@ MonoBehaviour:
       - m_Target: {fileID: 1516762574}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: TakeDamage
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 10
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 16715172}
-        m_TargetAssemblyTypeName: HealthBar, Assembly-CSharp
-        m_MethodName: Decrease
         m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

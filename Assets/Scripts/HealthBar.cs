@@ -11,42 +11,38 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private float _delta = 0.01f;
     [SerializeField] private float _delay = 0.01f;
     
-    private Coroutine _increase;
-    private Coroutine _decrease;
-    private float _targetValue;
-
-    public void Increase(float value) 
-    {
-        TryStopCoroutine(ref _increase);
-        TryStopCoroutine(ref _decrease);
-
-        _targetValue = Mathf.Clamp(_targetValue + value, 0, _slider.maxValue);
-        _increase = StartCoroutine(ChangeValue());
-    }
-
-    public void Decrease(float value) 
-    {
-        TryStopCoroutine(ref _increase);
-        TryStopCoroutine(ref _decrease);
-
-        _targetValue = Mathf.Clamp(_targetValue - value, 0, _slider.maxValue);
-        _decrease = StartCoroutine(ChangeValue());
-    }
-        
+    private Coroutine _coroutine;
+            
     private void Start() 
     {
         _slider.maxValue = _player.HealthMax;
         _slider.value = _slider.maxValue;
-        _targetValue = _slider.value;
     }
 
-    private IEnumerator ChangeValue() 
+    private void OnEnable()
+    {
+        _player.HealthChanged += ChangeValue;
+    }
+
+    private void OnDisable()
+    {
+        _player.HealthChanged -= ChangeValue;
+    }
+
+    private void ChangeValue() 
+    {
+        TryStopCoroutine(ref _coroutine);
+        
+        _coroutine = StartCoroutine(TargetValueSetter());
+    }
+
+    private IEnumerator TargetValueSetter() 
     {
         var waitForSeconds = new WaitForSeconds(_delay);
 
-        while (_slider.value != _targetValue) 
+        while (_slider.value != _player.HealthCurrent) 
         {
-            _slider.value = Mathf.MoveTowards(_slider.value, _targetValue, _delta);
+            _slider.value = Mathf.MoveTowards(_slider.value, _player.HealthCurrent, _delta);
             yield return waitForSeconds;
         }
     }
